@@ -1,15 +1,17 @@
 import { cp, mkdir, readdir, rm, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { buildDossier } from './vendor/makefun-frontend.ts';
 
 // The grader supplies /output; the override keeps local builds in the project.
 const destination = resolve(process.env.MAKEFUN_OUTPUT_DIR || '/output');
-const screenshots = (await readdir('screenshots')).filter(name => !name.startsWith('.'));
+const inputDirectory = fileURLToPath(new URL('.', import.meta.url));
+const screenshots = (await readdir(resolve(inputDirectory, 'screenshots'))).filter(name => !name.startsWith('.'));
 if (screenshots.length !== 3) throw new Error('Exactly three screenshots are required');
 await mkdir(destination, { recursive: true });
 for (const directory of ['app', 'screenshots']) {
   await rm(resolve(destination, directory), { recursive: true, force: true });
-  await cp(directory, resolve(destination, directory), { recursive: true });
+  await cp(resolve(inputDirectory, directory), resolve(destination, directory), { recursive: true });
 }
 const dossier = buildDossier(destination, {
   text_max_bytes: 163840,
