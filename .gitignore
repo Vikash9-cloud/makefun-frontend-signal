@@ -1,6 +1,2 @@
-.kit/
-out/
+output/
 node_modules/
-.env*
-*.log
-.cache/
