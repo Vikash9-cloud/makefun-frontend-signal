@@ -1,12 +1,6 @@
-makefun-frontend-01-kit/
-official-kit.tar.gz
-node_modules/
-.cache/
-.local/
+.kit/
 out/
-.env
-.env.*
-*.key
-*.pem
+node_modules/
+.env*
 *.log
-.codex/
+.cache/
